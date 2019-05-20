@@ -19,7 +19,7 @@ public class Main {
     private static void doSearch() {
         MovieSearcher movieSearcher = new MovieSearcher();
         try {
-            movieSearcher.search("매니페스토");
+            movieSearcher.search("아내");
         } catch (IOException e) {
             e.printStackTrace();
         }

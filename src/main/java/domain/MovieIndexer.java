@@ -1,5 +1,6 @@
 package domain;
 
+import Analyzer.EdgeNGramAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -7,6 +8,7 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.FSDirectory;
+import util.PropertyUtil;
 import vo.Movie;
 
 import java.io.IOException;
@@ -22,9 +24,12 @@ public class MovieIndexer {
     }
 
     public void index(){
-        IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
+        PropertyUtil propertyUtil = new PropertyUtil("movie");
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(new EdgeNGramAnalyzer());
+        String indexPath = propertyUtil.getValue("INDEX_PATH");
         indexWriterConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-        try(IndexWriter writer = new IndexWriter(FSDirectory.open(Paths.get("./index")) ,indexWriterConfig)){
+
+        try(IndexWriter writer = new IndexWriter(FSDirectory.open(Paths.get(indexPath)) ,indexWriterConfig)){
             for(Movie movie : movies){
                 writer.addDocument(makeDocument(movie));
             }
@@ -47,7 +52,6 @@ public class MovieIndexer {
         document.add(new StringField("production",movie.getProduction(), Field.Store.YES));
         return document;
     }
-
 
     @Override
     public String toString() {

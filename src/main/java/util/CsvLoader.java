@@ -13,7 +13,8 @@ public class CsvLoader {
     private String movieCsvFilePath;
 
     public CsvLoader() {
-        movieCsvFilePath = "src/main/resources/movie.csv";
+        PropertyUtil propertyUtil = new PropertyUtil("movie");
+        movieCsvFilePath = propertyUtil.getValue("MOVIE_CSV_PATH");
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
