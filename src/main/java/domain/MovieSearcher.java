@@ -3,7 +3,8 @@ package domain;
 import config.LuceneConfig;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Term;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
 
@@ -16,16 +17,12 @@ public class MovieSearcher {
         IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(LuceneConfig.INDEX_PATH)));
         IndexSearcher searcher = new IndexSearcher(reader);
 
-        TermQuery termQuery = new TermQuery(new Term("title", queryTerm));
-        TermQuery termQuery2 = new TermQuery(new Term("titleEn", queryTerm));
-
-
-        BooleanQuery query = new BooleanQuery
-                .Builder()
-                .add(new BooleanClause(termQuery, BooleanClause.Occur.SHOULD))
-                .add(new BooleanClause(termQuery2, BooleanClause.Occur.SHOULD))
-                .build();
-
+        Query query = null;
+        try {
+            query = new MultiFieldQueryParser(LuceneConfig.SEARCHABLE_FIELDS, LuceneConfig.DEFAULT_ANALYZER).parse(queryTerm);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         TopDocs result = searcher.search(query, LuceneConfig.ROWS);
         reader.close();
 

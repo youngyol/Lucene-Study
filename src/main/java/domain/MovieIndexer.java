@@ -24,7 +24,7 @@ public class MovieIndexer {
 
     public void index(){
         try(IndexWriter writer = new IndexWriter(FSDirectory.open(Paths.get(LuceneConfig.INDEX_PATH)),
-                LuceneConfig.indexWriterConfig)){
+                LuceneConfig.INDEX_WRITER_CONFIG)){
             for(Movie movie : movies){
                 writer.updateDocument(new Term("key",movie.getKey()), makeDocument(movie));
             }

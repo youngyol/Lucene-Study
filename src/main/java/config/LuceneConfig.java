@@ -1,14 +1,17 @@
 package config;
 
 import analyzer.EdgeNGramAnalyzer;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexWriterConfig;
 import util.PropertyUtil;
 
 public class LuceneConfig {
     public static final int ROWS = 10;
-    public static final IndexWriterConfig indexWriterConfig;
+    public static final IndexWriterConfig INDEX_WRITER_CONFIG;
     public static final String MOVIE_CSV_FILE_PATH;
     public static final String INDEX_PATH;
+    public static final String[] SEARCHABLE_FIELDS = {"title","titleEn"};
+    public static final Analyzer DEFAULT_ANALYZER = new EdgeNGramAnalyzer();
 
 
     static {
@@ -17,8 +20,8 @@ public class LuceneConfig {
         String movieCsvPathValue = "MOVIE_CSV_PATH";
         PropertyUtil propertyUtil = new PropertyUtil(propertyName);
         INDEX_PATH = propertyUtil.getValue(indexPathValue);
-        indexWriterConfig = new IndexWriterConfig(new EdgeNGramAnalyzer());
-        indexWriterConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+        INDEX_WRITER_CONFIG = new IndexWriterConfig(DEFAULT_ANALYZER);
+        INDEX_WRITER_CONFIG.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
         MOVIE_CSV_FILE_PATH = propertyUtil.getValue(movieCsvPathValue);
     }
 
