@@ -4,8 +4,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertyUtil {
-
-    public static final String PROPERTIES_SUFFIX = ".properties";
+    private static final String PROPERTIES_SUFFIX = ".properties";
     private final String propertyName;
 
     private Properties props;
