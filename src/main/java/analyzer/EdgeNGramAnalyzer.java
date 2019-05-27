@@ -1,4 +1,4 @@
-package Analyzer;
+package analyzer;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.LowerCaseFilter;

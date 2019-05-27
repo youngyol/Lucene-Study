@@ -9,19 +9,15 @@ import vo.Movie;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class CsvLoader {
-    private String movieCsvFilePath;
+import static config.LuceneConfig.MOVIE_CSV_FILE_PATH;
 
-    public CsvLoader() {
-        PropertyUtil propertyUtil = new PropertyUtil("movie");
-        movieCsvFilePath = propertyUtil.getValue("MOVIE_CSV_PATH");
-    }
+public class CsvLoader {
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public MovieIndexer loadMovies() {
         MovieIndexer movies = null;
 
-        try (CSVReader csvReader = new CSVReader(new FileReader(movieCsvFilePath))) {
+        try (CSVReader csvReader = new CSVReader(new FileReader(MOVIE_CSV_FILE_PATH))) {
             CsvToBean csvToBean = new CsvToBeanBuilder(csvReader)
                     .withType(Movie.class)
                     .withIgnoreLeadingWhiteSpace(true)

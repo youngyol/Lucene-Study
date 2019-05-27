@@ -19,6 +19,6 @@ public class PropertyUtilTest {
         String expectedValue = "lucene";
         String valueFromProperty = propertyUtil.getValue("test.value");
 
-        assertThat(expectedValue).isEqualTo(valueFromProperty);
+        assertThat(valueFromProperty).isEqualTo(expectedValue);
     }
 }

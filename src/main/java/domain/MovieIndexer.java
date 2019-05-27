@@ -1,14 +1,13 @@
 package domain;
 
-import Analyzer.EdgeNGramAnalyzer;
+import config.LuceneConfig;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.store.FSDirectory;
-import util.PropertyUtil;
 import vo.Movie;
 
 import java.io.IOException;
@@ -24,14 +23,10 @@ public class MovieIndexer {
     }
 
     public void index(){
-        PropertyUtil propertyUtil = new PropertyUtil("movie");
-        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(new EdgeNGramAnalyzer());
-        String indexPath = propertyUtil.getValue("INDEX_PATH");
-        indexWriterConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-
-        try(IndexWriter writer = new IndexWriter(FSDirectory.open(Paths.get(indexPath)) ,indexWriterConfig)){
+        try(IndexWriter writer = new IndexWriter(FSDirectory.open(Paths.get(LuceneConfig.INDEX_PATH)),
+                LuceneConfig.indexWriterConfig)){
             for(Movie movie : movies){
-                writer.addDocument(makeDocument(movie));
+                writer.updateDocument(new Term("key",movie.getKey()), makeDocument(movie));
             }
         } catch (IOException e) {
             e.printStackTrace();
