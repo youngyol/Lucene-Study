@@ -136,4 +136,31 @@ public class Movie {
                 ", production='" + production + '\'' +
                 "}\n";
     }
+
+    public String get(String field) {
+        switch (field){
+            case "key" :
+                return  this.key;
+            case "title" :
+                return this.title;
+            case "titleEn" :
+                return this.titleEn;
+            case "releaseYear" :
+                return this.releaseYear;
+            case "country" :
+                return this.country;
+            case "runtime" :
+                return this.runtime;
+            case "genre" :
+                return this.genre;
+            case "release" :
+                return this.release;
+            case "director" :
+                return this.director;
+            case "production" :
+                return this.production;
+            default:
+                return null;
+        }
+    }
 }

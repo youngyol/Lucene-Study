@@ -12,6 +12,7 @@ import vo.Movie;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,16 +37,18 @@ public class MovieIndexer {
 
     private Document makeDocument(Movie movie) {
         Document document = new Document();
-        document.add(new StringField("key", movie.getKey(), Field.Store.YES));
-        document.add(new TermVectorTextField("title", movie.getTitle(), Field.Store.YES));
-        document.add(new TermVectorTextField("titleEn",movie.getTitleEn(), Field.Store.YES));
-        document.add(new StringField("releaseYear",movie.getReleaseYear(), Field.Store.YES));
-        document.add(new StringField("country",movie.getRelease(), Field.Store.YES));
-        document.add(new StringField("runtime",movie.getCountry(), Field.Store.YES));
-        document.add(new StringField("release",movie.getRuntime(), Field.Store.YES));
-        document.add(new StringField("director",movie.getDirector(), Field.Store.YES));
-        document.add(new StringField("production",movie.getProduction(), Field.Store.YES));
+        for(String field : LuceneConfig.FIELDS){
+            if(isSearchableField(field)){
+                document.add(new TermVectorTextField(field,movie.get(field), Field.Store.YES));
+            } else {
+                document.add(new StringField(field, movie.get(field), Field.Store.YES));
+            }
+        }
         return document;
+    }
+
+    private boolean isSearchableField(String field) {
+        return Arrays.asList(LuceneConfig.SEARCHABLE_FIELDS).contains(field);
     }
 
     @Override

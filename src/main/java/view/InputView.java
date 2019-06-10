@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class InputView {
     public static String inputCommand() {
-        System.out.println("명령어를 입력하세요.");
+        System.out.println("명령어를 입력하세요.  (명령어 :index, search, highlight) ");
         return new Scanner(System.in).nextLine();
     }
 

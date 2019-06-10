@@ -11,6 +11,7 @@ import org.apache.lucene.store.FSDirectory;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -35,6 +36,7 @@ public class ResultView {
         System.out.println(result);
     }
 
+
     private static Document getDocument(int docId, IndexSearcher searcher) {
         Document resultDocument = null;
         try {
@@ -43,5 +45,9 @@ public class ResultView {
             e.printStackTrace();
         }
         return  resultDocument;
+    }
+
+    public static void printHighlightResult(List<String> result) {
+        System.out.println(result.stream().collect(Collectors.joining("\n")));
     }
 }

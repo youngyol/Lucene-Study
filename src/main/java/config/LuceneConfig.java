@@ -10,9 +10,9 @@ public class LuceneConfig {
     public static final IndexWriterConfig INDEX_WRITER_CONFIG;
     public static final String MOVIE_CSV_FILE_PATH;
     public static final String INDEX_PATH;
+    public static final String[] FIELDS ={"key","title","titleEn","releaseYear","country","runtime","release","director","production"};
     public static final String[] SEARCHABLE_FIELDS = {"title","titleEn"};
     public static final Analyzer DEFAULT_ANALYZER = new EdgeNGramAnalyzer();
-
 
     static {
         String propertyName = "movie";

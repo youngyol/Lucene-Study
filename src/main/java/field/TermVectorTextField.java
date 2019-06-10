@@ -20,6 +20,7 @@ public class TermVectorTextField extends Field {
         TYPE_NOT_STORED.setTokenized(true);
         TYPE_NOT_STORED.setStoreTermVectors(true);
         TYPE_NOT_STORED.setStoreTermVectorPositions(true);
+        TYPE_NOT_STORED.setStoreTermVectorOffsets(true);
         TYPE_NOT_STORED.freeze();
 
         TYPE_STORED.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
@@ -27,6 +28,7 @@ public class TermVectorTextField extends Field {
         TYPE_STORED.setStored(true);
         TYPE_STORED.setStoreTermVectors(true);
         TYPE_STORED.setStoreTermVectorPositions(true);
+        TYPE_STORED.setStoreTermVectorOffsets(true);
         TYPE_STORED.freeze();
     }
 

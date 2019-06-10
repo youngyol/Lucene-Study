@@ -6,23 +6,27 @@ import view.InputView;
 import view.ResultView;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         String command = InputView.inputCommand();
         switch (command.toLowerCase()){
             case "index" :
                 makeIndex();
                 break;
             case "search":
-               TopDocs topDocs = doSearch();
-               ResultView.printResult(topDocs);
+               ResultView.printResult(doRegularSearch());
                break;
+            case "highlight":
+                ResultView.printHighlightResult(doHighlightSearch());
+                break;
             default:
                 break;
         }
     }
+
 
     private static void makeIndex() {
         CsvLoader csvLoader = new CsvLoader();
@@ -30,9 +34,15 @@ public class Main {
         movieIndexer.index();
     }
 
-    private static TopDocs doSearch() throws IOException {
+    private static TopDocs doRegularSearch() throws IOException {
         MovieSearcher movieSearcher = new MovieSearcher();
         String queryTerm = InputView.inputSearchTerm();
         return movieSearcher.search(queryTerm);
+    }
+
+    private static List<String> doHighlightSearch() throws IOException  {
+        MovieSearcher movieSearcher = new MovieSearcher();
+        String queryTerm = InputView.inputSearchTerm();
+        return movieSearcher.searchResultHighlight(queryTerm);
     }
 }
