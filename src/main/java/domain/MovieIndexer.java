@@ -1,10 +1,10 @@
 package domain;
 
 import config.LuceneConfig;
+import field.TermVectorTextField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.FSDirectory;
@@ -37,8 +37,8 @@ public class MovieIndexer {
     private Document makeDocument(Movie movie) {
         Document document = new Document();
         document.add(new StringField("key", movie.getKey(), Field.Store.YES));
-        document.add(new TextField("title", movie.getTitle(), Field.Store.YES));
-        document.add(new TextField("titleEn",movie.getTitleEn(), Field.Store.YES));
+        document.add(new TermVectorTextField("title", movie.getTitle(), Field.Store.YES));
+        document.add(new TermVectorTextField("titleEn",movie.getTitleEn(), Field.Store.YES));
         document.add(new StringField("releaseYear",movie.getReleaseYear(), Field.Store.YES));
         document.add(new StringField("country",movie.getRelease(), Field.Store.YES));
         document.add(new StringField("runtime",movie.getCountry(), Field.Store.YES));
