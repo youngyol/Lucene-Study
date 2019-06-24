@@ -17,32 +17,26 @@ import java.util.List;
 
 public class MovieSearcher {
 
-    public TopDocs search(String queryTerm) throws IOException {
+    public TopDocs search(String queryTerm) throws IOException, ParseException {
         IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(LuceneConfig.INDEX_PATH)));
         IndexSearcher searcher = new IndexSearcher(reader);
 
         Query query = null;
-        try {
-            query = new MultiFieldQueryParser(LuceneConfig.SEARCHABLE_FIELDS, LuceneConfig.DEFAULT_ANALYZER).parse(queryTerm);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        query = new MultiFieldQueryParser(LuceneConfig.SEARCHABLE_FIELDS, LuceneConfig.DEFAULT_ANALYZER).parse(queryTerm);
+
+        System.out.println(query.toString());
         TopDocs result = searcher.search(query, LuceneConfig.ROWS);
         reader.close();
 
-        return  result;
+        return result;
     }
 
-    public List<String> searchResultHighlight(String queryTerm) throws IOException {
+    public List<String> searchResultHighlight(String queryTerm) throws IOException, ParseException {
         IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(LuceneConfig.INDEX_PATH)));
         IndexSearcher searcher = new IndexSearcher(reader);
 
         Query query = null;
-        try {
-            query = new MultiFieldQueryParser(LuceneConfig.SEARCHABLE_FIELDS, LuceneConfig.DEFAULT_ANALYZER).parse(queryTerm);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        query = new MultiFieldQueryParser(LuceneConfig.SEARCHABLE_FIELDS, LuceneConfig.SEARCH_ANALYZER).parse(queryTerm);
 
 
         List<String> result = new ArrayList<>();
@@ -52,7 +46,7 @@ public class MovieSearcher {
         for (int i = 0; i < topDocs.scoreDocs.length; i++) {
             int docId = topDocs.scoreDocs[i].doc;
             StringBuilder docHighlight = new StringBuilder();
-            for(String field : LuceneConfig.SEARCHABLE_FIELDS){
+            for (String field : LuceneConfig.SEARCHABLE_FIELDS) {
                 String fragment = fastVectorHighlighter.getBestFragment(fastVectorHighlighter.getFieldQuery(query, reader),
                         reader, docId, field, 30);
                 docHighlight.append("\t").append(field).append(":").append(fragment);
@@ -64,7 +58,7 @@ public class MovieSearcher {
         return result;
     }
 
-    private Highlighter getHighlighter(Query query){
+    private Highlighter getHighlighter(Query query) {
         Formatter formatter = new SimpleHTMLFormatter();
         QueryScorer scorer = new QueryScorer(query);
         Highlighter highlighter = new Highlighter(formatter, scorer);

@@ -1,5 +1,6 @@
 import domain.MovieIndexer;
 import domain.MovieSearcher;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.TopDocs;
 import util.CsvLoader;
 import view.InputView;
@@ -34,13 +35,13 @@ public class Main {
         movieIndexer.index();
     }
 
-    private static TopDocs doRegularSearch() throws IOException {
+    private static TopDocs doRegularSearch() throws IOException, ParseException {
         MovieSearcher movieSearcher = new MovieSearcher();
         String queryTerm = InputView.inputSearchTerm();
         return movieSearcher.search(queryTerm);
     }
 
-    private static List<String> doHighlightSearch() throws IOException  {
+    private static List<String> doHighlightSearch() throws IOException, ParseException {
         MovieSearcher movieSearcher = new MovieSearcher();
         String queryTerm = InputView.inputSearchTerm();
         return movieSearcher.searchResultHighlight(queryTerm);

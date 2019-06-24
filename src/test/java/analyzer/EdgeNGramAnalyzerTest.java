@@ -17,10 +17,10 @@ public class EdgeNGramAnalyzerTest implements AnalyzerTest {
         List<String> expectedResult = Arrays.asList("맥","맥북","맥북프","맥북프로");
 
         // when
-        List result = analyze(testText);
+        List actualResult = analyze(testText);
 
         // then
-        assertThat(result).isEqualTo(expectedResult);
+        assertThat(actualResult).isEqualTo(expectedResult);
     }
 
     @Test
@@ -30,10 +30,10 @@ public class EdgeNGramAnalyzerTest implements AnalyzerTest {
         List<String> expectedResult = Arrays.asList("t","th","the","s","sk","sky","i","is","b","bl","blu","blue");
 
         // when
-        List result = analyze(testText);
+        List actualResult = analyze(testText);
 
         // then
-        assertThat(result).isEqualTo(expectedResult);
+        assertThat(actualResult).isEqualTo(expectedResult);
     }
 
     @Test
@@ -43,10 +43,10 @@ public class EdgeNGramAnalyzerTest implements AnalyzerTest {
         List<String> expectedResult = Arrays.asList("a","ap","app","appl","apple");
 
         // when
-        List result = analyze(testText);
+        List actualResult = analyze(testText);
 
         // then
-        assertThat(result).isEqualTo(expectedResult);
+        assertThat(actualResult).isEqualTo(expectedResult);
     }
 
     @Test
@@ -56,9 +56,9 @@ public class EdgeNGramAnalyzerTest implements AnalyzerTest {
         List<String> expectedResult = Arrays.asList("사","사과","배");
 
         // when
-        List result = analyze(testText);
+        List actualResult = analyze(testText);
 
         // then
-        assertThat(result).isEqualTo(expectedResult);
+        assertThat(actualResult).isEqualTo(expectedResult);
     }
 }

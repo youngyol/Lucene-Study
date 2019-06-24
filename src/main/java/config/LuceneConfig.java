@@ -2,6 +2,7 @@ package config;
 
 import analyzer.EdgeNGramAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.IndexWriterConfig;
 import util.PropertyUtil;
 
@@ -13,6 +14,7 @@ public class LuceneConfig {
     public static final String[] FIELDS ={"key","title","titleEn","releaseYear","country","runtime","release","director","production"};
     public static final String[] SEARCHABLE_FIELDS = {"title","titleEn"};
     public static final Analyzer DEFAULT_ANALYZER = new EdgeNGramAnalyzer();
+    public static final Analyzer SEARCH_ANALYZER = new StandardAnalyzer();
 
     static {
         String propertyName = "movie";
